@@ -1,39 +1,42 @@
-/**
- * Keyboard. 
- * 
- * Click on the image to give it focus and press the letter keys 
- * to create forms in time and space. Each key has a unique identifying 
- * number. These numbers can be used to position shapes in space. 
- */
+String input = "";
+final String FONT = "Arial";
+final int FONTSIZE = 32;
 
-int rectWidth;
-   
+PFont f;
+
+
 void setup() {
-  size(640, 360);
-  noStroke();
-  background(0);
-  rectWidth = width/4;
+  size(640, 360 );
+  smooth();
+  f = createFont(FONT, FONTSIZE, true);
+  textFont(f,32);
+  fill(0);
 }
 
 void draw() { 
-  // keep draw() here to continue looping while waiting for keys
- 
+ background(255);
+ text(input, 20, 50);
 }
 
 void keyPressed() {
-  int keyIndex = -1;
-  if (key >= 'A' && key <= 'Z') {
-    keyIndex = key - 'A';
-  } else if (key >= 'a' && key <= 'z') {
-    keyIndex = key - 'a';
+  if (key >= 'a' && key <= 'z' ||
+      key >= 'A' && key <= 'Z') {
+    input+=char(key);
   }
-  if (keyIndex == -1) {
-    // If it's not a letter key, clear the screen
-    background(0);
-  } else { 
-    // It's a letter key, fill a rectangle
-    fill(millis() % 255);
-    float x = map(keyIndex, 0, 25, 0, width - rectWidth);
-    rect(x, 0, rectWidth, height);
+  if (key != CODED) {
+    switch(key) {
+      case ENTER:
+        String tervetuloa = "Tervetuloa ";
+        tervetuloa+=input;
+        tervetuloa+="!";
+        text(tervetuloa, 64,64);
+        break;
+      case BACKSPACE:
+        if (input.length() != 0) {
+        input = input.substring(0, input.length() -1);
+        }
+        break;
+    }
   }
 }
+        
