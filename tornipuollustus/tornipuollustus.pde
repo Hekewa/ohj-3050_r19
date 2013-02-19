@@ -36,6 +36,9 @@ void keyPressed() {
         input = input.substring(0, input.length() -1);
         }
         break;
+      case ' ':
+        input+=char(key);
+        break;
     }
   }
 }
