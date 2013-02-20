@@ -1,7 +1,13 @@
 // Testi -Saku
-String input = "";
+String typedText = "";
 final String FONT = "Arial";
 final int FONTSIZE = 32;
+
+//Tila 0-n kertoo draw funktiolle mikä on ohjelman tila
+//jotta osataan piirtää ruutu oikein.
+int tila = 0; 
+int time1 = millis();
+int time2 = millis();
 
 PFont f;
 
@@ -16,29 +22,40 @@ void setup() {
 
 void draw() { 
  background(255);
- text(input, 20, 50);
+ switch(tila){
+   case 0:
+   alustusRuutu();
+   break;
+   case 1:
+   text("Tervetuloa "+typedText, 35, 85);
+   if((time1+1000 - millis()) <= 0 ){
+     tila = 2;
+   }
+   break;
+   case 2:
+   piirraKentta();
+   break;
+ }
 }
 
 void keyPressed() {
   if (key >= 'a' && key <= 'z' ||
       key >= 'A' && key <= 'Z') {
-    input+=char(key);
+    typedText+=char(key);
   }
   if (key != CODED) {
     switch(key) {
       case ENTER:
-        String tervetuloa = "Tervetuloa ";
-        tervetuloa+=input;
-        tervetuloa+="!";
-        text(tervetuloa, 64,64);
+        tila = 1;
+        time1 = millis();
         break;
       case BACKSPACE:
-        if (input.length() != 0) {
-        input = input.substring(0, input.length() -1);
+        if (typedText.length() != 0) {
+        typedText = typedText.substring(0, typedText.length() -1);
         }
         break;
       case ' ':
-        input+=char(key);
+        typedText+=char(key);
         break;
     }
   }
