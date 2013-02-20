@@ -9,13 +9,18 @@ int tila = 0;
 int time1 = millis();
 int time2 = millis();
 
+PImage images[] = new PImage[1];
 PFont f;
 
 
 void setup() {
-  size(640, 360 );
+  size(800, 500);
   smooth();
   f = createFont(FONT, FONTSIZE, true);
+  for (int i = 0; i < images.length; i++)
+  {
+    images[i] = loadImage("img" + nf(i+1, 2) + ".png"); // nf() allows to generate 01, 02, etc.
+  }
   textFont(f,32);
   fill(0);
 }
@@ -46,8 +51,10 @@ void keyPressed() {
   if (key != CODED) {
     switch(key) {
       case ENTER:
-        tila = 1;
-        time1 = millis();
+        if(tila == 0){
+         tila = 1;
+         time1 = millis();
+        }
         break;
       case BACKSPACE:
         if (typedText.length() != 0) {
