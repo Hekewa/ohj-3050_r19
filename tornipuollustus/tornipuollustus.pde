@@ -9,29 +9,34 @@ int tila = 0;
 int time1 = millis();
 int time2 = millis();
 
-PImage images[] = new PImage[1];
+PImage taustatKuva[] = new PImage[1];
+PImage vihutKuva[] = new PImage[1];
+PImage tornitKuva[] = new PImage[1];
 PFont f;
 
 
 void setup() {
-  size(800, 500);
+  size(850, 500);
   smooth();
   f = createFont(FONT, FONTSIZE, true);
-  for (int i = 0; i < images.length; i++)
-  {
-    images[i] = loadImage("img" + nf(i+1, 2) + ".png"); // nf() allows to generate 01, 02, etc.
+  for (int i = 0; i < taustatKuva.length; i++){
+    taustatKuva[i] = loadImage("tausta" + nf(i+1, 2) + ".png");
+  }for (int i = 0; i < vihutKuva.length; i++){
+    vihutKuva[i] = loadImage("vihu" + nf(i+1, 2) + ".png");
+  }for (int i = 0; i < tornitKuva.length; i++){
+    tornitKuva[i] = loadImage("torni" + nf(i+1, 2) + ".png");
   }
   textFont(f,32);
   fill(0);
 }
 
 void draw() { 
- background(255);
  switch(tila){
    case 0:
    alustusRuutu();
    break;
    case 1:
+   image(taustatKuva[0],0,0);
    text("Tervetuloa "+typedText, 35, 85);
    if((time1+1000 - millis()) <= 0 ){
      tila = 2;
