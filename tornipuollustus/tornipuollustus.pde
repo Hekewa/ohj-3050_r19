@@ -6,8 +6,8 @@ final int FONTSIZE = 32;
 //Tila 0-n kertoo draw funktiolle mikä on ohjelman tila
 //jotta osataan piirtää ruutu oikein.
 int tila = 0; 
-int time1 = millis();
-int time2 = millis();
+int time = millis();
+int downcount = 60;
 
 PImage taustatKuva[] = new PImage[1];
 PImage vihutKuva[] = new PImage[1];
@@ -27,7 +27,6 @@ void setup() {
     tornitKuva[i] = loadImage("torni" + nf(i+1, 2) + ".png");
   }
   textFont(f,32);
-  fill(0);
 }
 
 void draw() { 
@@ -38,11 +37,13 @@ void draw() {
    case 1:
    image(taustatKuva[0],0,0);
    text("Tervetuloa "+typedText, 35, 85);
-   if((time1+1000 - millis()) <= 0 ){
+   if((time+1000 - millis()) <= 0 ){
      tila = 2;
+     time = millis();
    }
    break;
    case 2:
+   paivitaCounter();
    piirraKentta();
    break;
  }
@@ -58,7 +59,7 @@ void keyPressed() {
       case ENTER:
         if(tila == 0){
          tila = 1;
-         time1 = millis();
+         time = millis();
         }
         break;
       case BACKSPACE:
