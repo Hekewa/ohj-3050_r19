@@ -2,12 +2,20 @@
 String typedText = "";
 final String FONT = "Arial";
 final int FONTSIZE = 32;
+final int MAX_LASKURI = 60;
 
 //Tila 0-n kertoo draw funktiolle mikä on ohjelman tila
 //jotta osataan piirtää ruutu oikein.
 int tila = 0; 
+//Yleinen muuttuja eri tapahtumien ajoittamiselle
 int time = millis();
-int downcount = 60;
+//Muuttujat laskurille joka laskee MAX_LASKURISTA nollaan 
+//ja kertoo
+int downcount = MAX_LASKURI;
+int countertime = 0;
+//Muuttujat tornin paikalle 
+int torniX = 600;
+int torniY = 125;
 
 PImage taustatKuva[] = new PImage[1];
 PImage vihutKuva[] = new PImage[1];
@@ -39,7 +47,7 @@ void draw() {
    text("Tervetuloa "+typedText, 35, 85);
    if((time+1000 - millis()) <= 0 ){
      tila = 2;
-     time = millis();
+     countertime = millis();
    }
    break;
    case 2:
@@ -73,4 +81,14 @@ void keyPressed() {
     }
   }
 }
-        
+
+void mouseDragged() {
+  if( (mouseX >= torniX || mouseX <= torniX)
+       && (mouseY >= torniY || mouseY <= torniY)  ) {
+    torniX = mouseX;
+    torniY = mouseY;
+  }
+  
+}
+
+     

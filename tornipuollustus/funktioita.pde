@@ -5,7 +5,7 @@ void alustusRuutu() {
   text(typedText+(frameCount/20 % 2 == 0 ? "_" : ""), 35, 85);
 }
 
-int vihunPaikkax = 0;
+float vihunPaikkax = 0;
 
 void piirraKentta() {
   background(0);
@@ -24,20 +24,21 @@ void piirraKentta() {
   line(50, 300, 350, 300);
   line(350, 300, 350, 500);
   endShape();
-  image(tornitKuva[0],600,125);
+  image(tornitKuva[0],torniX,torniY);
   image(vihutKuva[0],vihunPaikkax,45);
-  vihunPaikkax += 1;
+  vihunPaikkax += 0.1;
   if(vihunPaikkax == 650){
     vihunPaikkax = 0;
   }
 }
 
+//Päivittää hirviöaaltojen ilmestymistä merkkaavan laskimen
 void paivitaCounter(){
-  if(time+1000 <= millis() ){
+  if(countertime+1000 <= millis() ){
     downcount -= 1;
-    time = millis();
+    countertime = millis();
   if(downcount < 0)
-    downcount = 60;
+    downcount = MAX_LASKURI;
   }
 }
   
