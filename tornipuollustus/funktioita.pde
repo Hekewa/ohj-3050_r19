@@ -1,3 +1,9 @@
+public class Koordinaatti {
+  public int x;
+  public int y;
+}
+
+
 void alustusRuutu() {
   image(taustatKuva[0],0,0); 
   fill(255,215,0);

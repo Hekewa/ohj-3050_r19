@@ -1,4 +1,5 @@
-// Testi -Saku
+
+
 String typedText = "";
 final String FONT = "Arial";
 final int FONTSIZE = 32;
@@ -82,13 +83,6 @@ void keyPressed() {
   }
 }
 
-void mouseDragged() {
-  if( (mouseX >= torniX || mouseX <= torniX)
-       && (mouseY >= torniY || mouseY <= torniY)  ) {
-    torniX = mouseX;
-    torniY = mouseY;
-  }
-  
-}
+
 
      
