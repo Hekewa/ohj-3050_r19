@@ -18,44 +18,41 @@ int countertime = 0;
 int torniX = 600;
 int torniY = 125;
 
-PImage taustatKuva[] = new PImage[1];
-PImage vihutKuva[] = new PImage[1];
-PImage tornitKuva[] = new PImage[1];
+PImage taustaKuvat[] = new PImage[1];
+PImage vihuKuvat[] = new PImage[1];
+PImage torniKuvat[] = new PImage[1];
 PFont f;
+
+Kentta peliKentta = new Kentta();
 
 
 void setup() {
   size(850, 500);
   smooth();
   f = createFont(FONT, FONTSIZE, true);
-  for (int i = 0; i < taustatKuva.length; i++){
-    taustatKuva[i] = loadImage("tausta" + nf(i+1, 2) + ".png");
-  }for (int i = 0; i < vihutKuva.length; i++){
-    vihutKuva[i] = loadImage("vihu" + nf(i+1, 2) + ".png");
-  }for (int i = 0; i < tornitKuva.length; i++){
-    tornitKuva[i] = loadImage("torni" + nf(i+1, 2) + ".png");
+  peliKentta.alusta();
+  for (int i = 0; i < taustaKuvat.length; i++){
+    taustaKuvat[i] = loadImage("tausta" + nf(i+1, 2) + ".png");
+  }for (int i = 0; i < vihuKuvat.length; i++){
+    vihuKuvat[i] = loadImage("vihu" + nf(i+1, 2) + ".png");
+  }for (int i = 0; i < torniKuvat.length; i++){
+    torniKuvat[i] = loadImage("torni" + nf(i+1, 2) + ".png");
   }
   textFont(f,32);
 }
 
 void draw() { 
- switch(tila){
-   case 0:
-   alustusRuutu();
-   break;
-   case 1:
-   image(taustatKuva[0],0,0);
-   text("Tervetuloa "+typedText, 35, 85);
-   if((time+1000 - millis()) <= 0 ){
-     tila = 2;
-     countertime = millis();
-   }
-   break;
-   case 2:
-   paivitaCounter();
-   piirraKentta();
-   break;
- }
+  switch(tila){
+     case 0:
+       image (taustaKuvat[0] ,0,0);
+       fill(255,215,0);
+       text("Tervetuloa, anna nimesi" , 35, 35);
+       text(typedText+(frameCount/20 % 2 == 0 ? "_" : ""), 35, 85);
+       break;
+    case 1:
+      peliKentta.piirra();
+      break;
+  }
 }
 
 void keyPressed() {

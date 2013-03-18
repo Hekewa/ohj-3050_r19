@@ -1,11 +1,8 @@
-public class Koordinaatti {
-  public int x;
-  public int y;
-}
+//
 
 
 void alustusRuutu() {
-  image(taustatKuva[0],0,0); 
+   
   fill(255,215,0);
   text("Tervetuloa, anna nimesi" , 35, 35);
   text(typedText+(frameCount/20 % 2 == 0 ? "_" : ""), 35, 85);
@@ -15,7 +12,7 @@ float vihunPaikkax = 0;
 
 void piirraKentta() {
   background(0);
-  image(taustatKuva[0],0,0);
+  image(taustaKuvat[0],0,0);
   
   text("Kenttä 1", 10, 30);
   text(downcount, 200, 30);
@@ -30,8 +27,8 @@ void piirraKentta() {
   line(50, 300, 350, 300);
   line(350, 300, 350, 500);
   endShape();
-  image(tornitKuva[0],torniX,torniY);
-  image(vihutKuva[0],vihunPaikkax,45);
+  image(torniKuvat[0],torniX,torniY);
+  image(vihuKuvat[0],vihunPaikkax,45);
   vihunPaikkax += 0.1;
   if(vihunPaikkax == 650){
     vihunPaikkax = 0;
@@ -43,8 +40,9 @@ void paivitaCounter(){
   if(countertime+1000 <= millis() ){
     downcount -= 1;
     countertime = millis();
-  if(downcount < 0)
+  }
+  if(downcount < 0){
     downcount = MAX_LASKURI;
   }
 }
-  
+
