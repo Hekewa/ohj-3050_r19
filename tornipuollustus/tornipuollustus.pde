@@ -23,14 +23,14 @@ PImage vihuKuvat[] = new PImage[1];
 PImage torniKuvat[] = new PImage[1];
 PFont f;
 
-Kentta peliKentta = new Kentta();
+Kentta pelikentta = new Kentta();
 
 
 void setup() {
   size(850, 500);
   smooth();
   f = createFont(FONT, FONTSIZE, true);
-  peliKentta.alusta();
+  pelikentta.alusta();
   for (int i = 0; i < taustaKuvat.length; i++){
     taustaKuvat[i] = loadImage("tausta" + nf(i+1, 2) + ".png");
   }for (int i = 0; i < vihuKuvat.length; i++){
@@ -42,44 +42,15 @@ void setup() {
 }
 
 void draw() { 
-  switch(tila){
-     case 0:
-       image (taustaKuvat[0] ,0,0);
-       fill(255,215,0);
-       text("Tervetuloa, anna nimesi" , 35, 35);
-       text(typedText+(frameCount/20 % 2 == 0 ? "_" : ""), 35, 85);
-       break;
-    case 1:
-      peliKentta.piirra();
-      break;
-  }
+  pelikentta.piirra();
 }
 
 void keyPressed() {
-  if (key >= 'a' && key <= 'z' ||
-      key >= 'A' && key <= 'Z') {
-    typedText+=char(key);
-  }
-  if (key != CODED) {
-    switch(key) {
-      case ENTER:
-        if(tila == 0){
-         tila = 1;
-         time = millis();
-        }
-        break;
-      case BACKSPACE:
-        if (typedText.length() != 0) {
-        typedText = typedText.substring(0, typedText.length() -1);
-        }
-        break;
-      case ' ':
-        typedText+=char(key);
-        break;
-    }
-  }
+  pelikentta.nappainPainettu();
 }
 
-
+void mouseClicked(){
+  pelikentta.hiirtaPainettu();
+}
 
      
