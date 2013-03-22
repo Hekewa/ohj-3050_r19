@@ -31,14 +31,17 @@ void setup() {
   smooth();
   f = createFont(FONT, FONTSIZE, true);
   pelikentta.alusta();
-  for (int i = 0; i < taustaKuvat.length; i++){
+  for (int i = 0; i < taustaKuvat.length; i++) {
     taustaKuvat[i] = loadImage("tausta" + nf(i+1, 2) + ".png");
-  }for (int i = 0; i < vihuKuvat.length; i++){
+  }
+  for (int i = 0; i < vihuKuvat.length; i++) {
     vihuKuvat[i] = loadImage("vihu" + nf(i+1, 2) + ".png");
-  }for (int i = 0; i < torniKuvat.length; i++){
+  }
+  for (int i = 0; i < torniKuvat.length; i++) {
     torniKuvat[i] = loadImage("torni" + nf(i+1, 2) + ".png");
   }
-  textFont(f,32);
+
+  textFont(f, 32);
 }
 
 void draw() { 
@@ -49,8 +52,11 @@ void keyPressed() {
   pelikentta.nappainPainettu();
 }
 
-void mouseClicked(){
+void mouseMoved() {
+  pelikentta.hiirtaLiikutettu();
+}
+
+void mouseClicked() {
   pelikentta.hiirtaPainettu();
 }
 
-     

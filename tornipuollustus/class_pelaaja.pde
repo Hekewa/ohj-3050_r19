@@ -1,18 +1,28 @@
 //Pelaaja luokan toteutus
 
 public class Pelaaja {
-  private String nimi_ = "";
-  private int rahat_ ;
+  public String nimi_ = "";
+  private int rahat_ = 300;
   private int pisteet_;
   private int elama_;
-  
-  
-  public Pelaaja(String nimi){
+
+
+  public Pelaaja(String nimi) {
     nimi_ = nimi;
   }
-  
-  public void tulostaNimi() {
-    text(nimi_, 35, 85);
+
+  public Boolean vahennaRahaa(int summa) {
+    if (rahat_ - summa < 0 ) {
+      return false;
+    } 
+    rahat_ -= summa;
+    return true;
   }
-  
+
+
+
+  public void tulostaTiedot() {
+    text("$" + rahat_, 801, 485);
+  }
 }
+
