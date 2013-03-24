@@ -150,7 +150,15 @@ public class Kentta {
   //  ========================================================================
   //
   public void hiirtaLiikutettu() {
+    Koordinaatti tmp;
     if (kiskottava_ != null) {
+      for (int i = 0; i < tornit_.size(); i++) {
+        tmp = tornit_.get(i).palautaPaikka();
+         if ( mouseX < tmp.x+15 && mouseX > tmp.x
+          && mouseY < tmp.y+15 && mouseY > tmp.y) {
+           return;
+          } 
+      }
       kiskottava_.uusiPaikka(mouseX-7, mouseY-7);
     }
   }
