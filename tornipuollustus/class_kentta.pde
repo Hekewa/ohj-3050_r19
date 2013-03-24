@@ -41,11 +41,26 @@ public class Kentta {
         pelinTila_ = 2;
         pelaaja_ = new Pelaaja(typedText);
         countertime = millis();
-        lisaaHirvioita();
+        downcount = START_COUNTER;
       }       
       break;
     case 2:
-      fill(255, 215, 0);
+      paivitaCounter();
+      piirraKentta();
+      fill(255, 215, 0);      
+      textFont(f, 32);
+      textAlign(CENTER);
+      text("Hirviöt lähestyvät!", width/2, height/2);
+      textAlign(LEFT);
+      if (downcount <= 0) {
+        pelinTila_ = 3;
+        countertime = millis();
+        lisaaHirvioita();
+        downcount = MAX_LASKURI;
+      }
+      break;
+    case 3:
+      fill(255, 215, 0);      
       textFont(f, 32);
       paivitaCounter();
       piirraKentta();
