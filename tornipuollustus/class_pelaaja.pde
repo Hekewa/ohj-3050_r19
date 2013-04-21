@@ -2,7 +2,7 @@
 
 public class Pelaaja {
   public String nimi_ = "";
-  private int rahat_ = 300;
+  private int rahat_ = 500;
   private int pisteet_;
   private int elama_;
 

@@ -19,9 +19,9 @@ int countertime = 0;
 int torniX = 600;
 int torniY = 125;
 
-PImage taustaKuvat[] = new PImage[1];
-PImage vihuKuvat[] = new PImage[1];
-PImage torniKuvat[] = new PImage[1];
+PImage taustaKuvat[] = new PImage[2];
+PImage vihuKuvat[] = new PImage[2];
+PImage torniKuvat[] = new PImage[2];
 PFont f;
 
 Kentta pelikentta = new Kentta();

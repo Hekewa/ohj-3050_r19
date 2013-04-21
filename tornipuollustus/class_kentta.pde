@@ -17,9 +17,12 @@ public class Kentta {
   private int pelinTila_ = 0;
   private int countertime_ = 0;
   private int downcount_ = 0;
+  private int aaltonro = 1;
+  private int lahetetytVihut = 1;
   private int time_ = 0;
   private Boolean dragTorni_ = false;
   private Torni kiskottava_ = null;
+  private Tukikohta tukikohta_ = new Tukikohta(800, height/2, 20) ;
 
   public void alusta() {
   }
@@ -65,6 +68,12 @@ public class Kentta {
       paivitaCounter();
       piirraKentta();
       break;
+    case 4:
+      textFont(f, 32);
+      textAlign(CENTER);
+      text("Hävisit pelin!",  width/2, height/2);
+      textAlign(LEFT);
+      break;
     }
     return;
   }
@@ -73,28 +82,36 @@ public class Kentta {
   //  
   private void piirraKentta() {
     background(100);
-    image(taustaKuvat[0], 0, 0);
+    image(taustaKuvat[1], 0, 0);
 
     text("Kenttä 1", 10, 30);
     text(downcount, 200, 30);
-    stroke(244, 32, 112);
-    strokeWeight(10);  
-    line(0, 250, 800, 250);
+    stroke(139, 69, 20);
+    strokeWeight(20);  
+    line(0, height/2, 800, height/2);
     stroke(0, 0, 0);
     strokeWeight(0);
     fill(40);  
     rect(800, 0, 50, 500);
-    for (int i = 0; i < torniKuvat.length; i++) { 
-      image(torniKuvat[i], 820, i*10+10);
+    for (int i = 0; i < torniKuvat.length; i++) {
+      image(torniKuvat[i], 820 - torniKuvat[i].width/2, i*30+10);
     }
     for ( int i = 0; i < viholliset_.size(); i++) {
       Vihu tmp = viholliset_.get(i);
       tmp.piirra();
+      if (tmp.piirra()) {
+        if (tukikohta_.menetaElama()) {
+          pelinTila_ = 4;
+        }
+        viholliset_.remove(i);
+      }
     }
     for ( int i = 0; i < tornit_.size(); i++) {
       Torni tmp = tornit_.get(i);
       tmp.piirra();
     }
+    
+    tukikohta_.piirraElamat();
 
     fill(255, 215, 0);
     textFont(f, 20);
@@ -138,11 +155,20 @@ public class Kentta {
 
   //  ========================================================================
   //
-  public Torni uusiTorni() {
-    Torni uusTorni = new Torni(mouseX, mouseY);
-    if (pelaaja_.vahennaRahaa(uusTorni.hinta_)) {
-      tornit_.add(uusTorni);
-      return uusTorni;
+  public Torni uusiTorni(int tornityyppi) {
+    if (tornityyppi == 0) {
+      Torni uusTorni = new Torni(mouseX, mouseY, 100, 1, 0);
+        if (pelaaja_.vahennaRahaa(uusTorni.hinta_)) {
+        tornit_.add(uusTorni);
+        return uusTorni;
+        }
+    }
+    else {
+      Torni uusTorni = new Torni(mouseX, mouseY, 200, 2, 1);
+        if (pelaaja_.vahennaRahaa(uusTorni.hinta_)) {
+        tornit_.add(uusTorni);
+        return uusTorni;
+      }
     }
     return null;
   }
@@ -150,15 +176,7 @@ public class Kentta {
   //  ========================================================================
   //
   public void hiirtaLiikutettu() {
-    Koordinaatti tmp;
     if (kiskottava_ != null) {
-      for (int i = 0; i < tornit_.size(); i++) {
-        tmp = tornit_.get(i).palautaPaikka();
-         if ( mouseX < tmp.x+15 && mouseX > tmp.x
-          && mouseY < tmp.y+15 && mouseY > tmp.y) {
-           return;
-          } 
-      }
       kiskottava_.uusiPaikka(mouseX-7, mouseY-7);
     }
   }
@@ -168,7 +186,14 @@ public class Kentta {
   //
   public void hiirtaPainettu() {
     if (mouseX > 800 && kiskottava_ == null) {
-      kiskottava_ = uusiTorni();
+      if ( mouseX <  826 && mouseX > 813
+          && mouseY < 22 && mouseY > 10) {
+        kiskottava_ = uusiTorni(0);
+       }
+       if ( mouseX <  833 && mouseX > 806
+          && mouseY < 68 && mouseY > 40) {
+        kiskottava_ = uusiTorni(1);
+       }
     }
     else if ( kiskottava_ == null ) {
       for ( int i = 0; i < tornit_.size(); i++) {
@@ -189,7 +214,7 @@ public class Kentta {
   //  ========================================================================
   //
   public void lisaaHirvioita() {
-    Vihu uusvihu = new Vihu(0, 245);
+    Vihu uusvihu = new Vihu(0, height/2);
     viholliset_.add(uusvihu);
   } 
 
@@ -211,10 +236,16 @@ public class Kentta {
     if (countertime+500 <= millis() ) {
       downcount -= 1;
       countertime = millis();
+      if ((downcount % (MAX_LASKURI/aaltonro)) == 0 && pelinTila_ == 3) {
+        lisaaHirvioita();
+      }
     }
     if (downcount < 0) {
       downcount = MAX_LASKURI;
+      int waittime = millis();
       lisaaHirvioita();
+      lahetetytVihut = 1;
+      ++aaltonro;
     }
   }
 }

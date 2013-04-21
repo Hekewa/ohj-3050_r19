@@ -1,8 +1,6 @@
-
-
 public class Vihu {
   private Koordinaatti paikka_ = new Koordinaatti(0, 0);
-  private float nopeus_ = 0.12;
+  private float nopeus_ = 0.5;
   private int kestavyys_ = 0;
 
   public Vihu(int X, int Y) {
@@ -10,12 +8,13 @@ public class Vihu {
     paikka_.y = Y;
   }
 
-  public void piirra() {
-    image(vihuKuvat[0], paikka_.x, paikka_.y); 
+  public boolean piirra() {
+    image(vihuKuvat[1], paikka_.x - vihuKuvat[1].width/2, paikka_.y - vihuKuvat[1].height/2); 
     paikka_.x += nopeus_;
     if (paikka_.x >= 800) {
-      paikka_.x = 0;
+      return true;
     }
+    return false;
   }
 }
 
