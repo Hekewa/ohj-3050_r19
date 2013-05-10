@@ -19,9 +19,9 @@ public class Torni {
       hinta_ = 100;
       taso_ = 1;
       kuva_ = 0;
-      tulivoima_ = 1;
+      tulivoima_ = 5;
       kantama_ = 40;
-      viive_ = 1;
+      viive_ = 1000;
     }
      if (tyyppi == 2) {
       paikka_.x = X;
@@ -29,11 +29,10 @@ public class Torni {
       hinta_ = 200;
       taso_ = 2;
       kuva_ = 1;
-      tulivoima_ = 1;
+      tulivoima_ = 10;
       kantama_ = 50;
-      viive_ = 2;
+      viive_ = 2000;
     }
-    
   }
 
   public void uusiPaikka(int X, int Y) {
@@ -55,6 +54,7 @@ public class Torni {
   }
 
   public boolean ammu (Koordinaatti kohde) {
+    if ((millis() - viimeksiAmmuttu_) > viive_) {
       if (sqrt(pow((kohde.x - paikka_.x),2)+pow((kohde.y - paikka_.y),2)) < kantama_) {
         stroke(255);
         strokeWeight(20);  
@@ -62,6 +62,7 @@ public class Torni {
         viimeksiAmmuttu_ = millis();
         return true;
       }
+    }
     return false;
   }
       

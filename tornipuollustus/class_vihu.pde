@@ -1,7 +1,7 @@
 public class Vihu {
   private Koordinaatti paikka_ = new Koordinaatti(0, 0);
   private float nopeus_ = 0.5;
-  private int kestavyys_ = 10;
+  private int kestavyys_ = 20;
 
   public Vihu(int X, int Y) {
     paikka_.x = X;
@@ -14,7 +14,7 @@ public class Vihu {
   
   public boolean vahennaKestavyytta (int vahennys) {
     kestavyys_ -= vahennys;
-    if (kestavyys_ < 0) {
+    if (kestavyys_ <= 0) {
       return true;
     }
     else {
