@@ -84,7 +84,7 @@ public class Kentta {
     background(100);
     image(taustaKuvat[1], 0, 0);
 
-    text("Kenttä 1", 10, 30);
+    text("Aalto: " + aaltonro, 10, 30);
     text(downcount, 200, 30);
     stroke(139, 69, 20);
     strokeWeight(20);  
@@ -112,8 +112,10 @@ public class Kentta {
       for (int k = 0; k < viholliset_.size(); ++k) {
         Vihu kohde = viholliset_.get(k);
           if (tmp.ammu(kohde.palautaPaikka())) {
-             viholliset_.remove(k);
-             pelaaja_.lisaaRahaa(100);
+             if (viholliset_.get(k).vahennaKestavyytta(tmp.palautaTulivoima())) {               
+               viholliset_.remove(k);
+               pelaaja_.lisaaRahaa(100);
+             }
         }
       }
     }
@@ -243,7 +245,7 @@ public class Kentta {
     if (countertime+500 <= millis() ) {
       downcount -= 1;
       countertime = millis();
-      if ((downcount % (MAX_LASKURI/aaltonro)) == 0 && pelinTila_ == 3) {
+      if ((downcount % (10*MAX_LASKURI/aaltonro)) == 0 && pelinTila_ == 3) {
         lisaaHirvioita();
       }
     }
