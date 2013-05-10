@@ -18,6 +18,10 @@ public class Pelaaja {
     rahat_ -= summa;
     return true;
   }
+  
+  public void lisaaRahaa (int summa) {
+    rahat_ += summa;
+  }
 
 
 

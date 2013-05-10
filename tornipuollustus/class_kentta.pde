@@ -109,6 +109,13 @@ public class Kentta {
     for ( int i = 0; i < tornit_.size(); i++) {
       Torni tmp = tornit_.get(i);
       tmp.piirra();
+      for (int k = 0; k < viholliset_.size(); ++k) {
+        Vihu kohde = viholliset_.get(k);
+          if (tmp.ammu(kohde.palautaPaikka())) {
+             viholliset_.remove(k);
+             pelaaja_.lisaaRahaa(100);
+        }
+      }
     }
     
     tukikohta_.piirraElamat();
@@ -157,14 +164,14 @@ public class Kentta {
   //
   public Torni uusiTorni(int tornityyppi) {
     if (tornityyppi == 0) {
-      Torni uusTorni = new Torni(mouseX, mouseY, 100, 1, 0);
+      Torni uusTorni = new Torni(mouseX, mouseY, tornityyppi);
         if (pelaaja_.vahennaRahaa(uusTorni.hinta_)) {
         tornit_.add(uusTorni);
         return uusTorni;
         }
     }
     else {
-      Torni uusTorni = new Torni(mouseX, mouseY, 200, 2, 1);
+      Torni uusTorni = new Torni(mouseX, mouseY, tornityyppi);
         if (pelaaja_.vahennaRahaa(uusTorni.hinta_)) {
         tornit_.add(uusTorni);
         return uusTorni;
@@ -188,11 +195,11 @@ public class Kentta {
     if (mouseX > 800 && kiskottava_ == null) {
       if ( mouseX <  826 && mouseX > 813
           && mouseY < 22 && mouseY > 10) {
-        kiskottava_ = uusiTorni(0);
+        kiskottava_ = uusiTorni(1);
        }
        if ( mouseX <  833 && mouseX > 806
           && mouseY < 68 && mouseY > 40) {
-        kiskottava_ = uusiTorni(1);
+        kiskottava_ = uusiTorni(2);
        }
     }
     else if ( kiskottava_ == null ) {
