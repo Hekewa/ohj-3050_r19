@@ -10,7 +10,7 @@ final String FONT = "Arial";
 final int FONTSIZE = 32;
 final int MAX_LASKURI = 60;
 final int START_COUNTER = 15;
-final int MAX_ELAMAT = 1;
+final int MAX_ELAMAT = 5;
 final int ALKURAHAT = 300;
 
 final String PISTETIEDOSTO = "highscore.txt";

@@ -145,7 +145,7 @@ public class Kentta {
         Vihu kohde = viholliset_.get(k);
         if (tmp.ammu(kohde.palautaPaikka())) {
           if (viholliset_.get(k).vahennaKestavyytta(tmp.palautaTulivoima())) {
-            int rahat = viholliset_.get(k).annaTapporaha();
+            int rahat = viholliset_.get(k).annaTapporaha()-int(2*(aaltonro/10));
             int pisteet = viholliset_.get(k).annaTappopisteet();
             viholliset_.get(k).kuole();            
             viholliset_.remove(k);
@@ -374,6 +374,16 @@ public class Kentta {
         }
       }
       if (!onReitilla && mouseX < 800) {
+        for ( int i = 0; i < tornit_.size(); i++) {
+          Torni tmp = tornit_.get(i);
+          Koordinaatti paikka = tmp.palautaPaikka();
+          if ( mouseX < paikka.x+torniKuvat[1].width && mouseX > paikka.x
+            && mouseY < paikka.y+torniKuvat[2].height && mouseY > paikka.y) {
+            if (kiskottava_ != tmp) {
+              return;
+            }
+          }
+        }
         kiskottava_.kiskotaan(false);
         kiskottava_ = null;
       }
@@ -408,7 +418,7 @@ public class Kentta {
     if (countertime+500 <= millis() ) {
       downcount -= 1;
       countertime = millis();
-      if (pelinTila_ == 3) { 
+      if (pelinTila_ == 3 && downcount >= 10) { 
         if (lahetettavatVihut != 0) {
           lisaaHirvioita(reitti_.get(0));
           --lahetettavatVihut;
