@@ -1,11 +1,19 @@
+import ddf.minim.*;
+
+Minim minim;
+AudioPlayer musiikki;
+
+import processing.video.*;
+
 String typedText = "";
 final String FONT = "Arial";
-final String PISTETIEDOSTO = "highscore.txt";
 final int FONTSIZE = 32;
 final int MAX_LASKURI = 60;
 final int START_COUNTER = 15;
-final int MAX_ELAMAT = 1;
+final int MAX_ELAMAT = 5;
 final int ALKURAHAT = 300;
+
+final String PISTETIEDOSTO = "highscore.txt";
 
 //Tila 0-n kertoo draw funktiolle mikä on ohjelman tila
 //jotta osataan piirtää ruutu oikein.
@@ -25,12 +33,11 @@ PImage vihuKuvat[] = new PImage[4];
 PImage torniKuvat[] = new PImage[4];
 PFont f;
 
-Kentta pelikentta = new Kentta();
 
 public class Pisteet {
   public String nimi = "AAA";
   public int pisteet =  0;
-  public Pisteet(String X, int Y){
+  public Pisteet(String X, int Y) {
     nimi = X;
     pisteet = Y;
   }
@@ -39,8 +46,18 @@ public class Pisteet {
 //Taulukko johon luetaan pisteet luetaan 
 Pisteet highscore[] = new Pisteet[10];
 
+Kentta pelikentta = new Kentta();
+
+
 void setup() {
   size(850, 500);
+  
+  minim = new Minim(this);
+  
+  musiikki = minim.loadFile("musiikki.mp3");
+  musiikki.play();
+  musiikki.loop();
+
   smooth();
   f = createFont(FONT, FONTSIZE, true);
   pelikentta.alusta();
@@ -55,7 +72,6 @@ void setup() {
   }
 
   textFont(f, 32);
-
   for (int i = 0; i < 10 ; i++) {  
     highscore[i] = new Pisteet("AAA", 0);
   }
@@ -67,16 +83,6 @@ void setup() {
     highscore[i].pisteet = int(tmp[1]);
   }
 }
-
-void stop(){
-  String[] list = new String[10];
-  for (int i = 0; i < highscore.length && i < 10 ; i++) {
-     list[i] = highscore[i].nimi + " " + highscore[i].pisteet;
-  }
-  saveStrings(PISTETIEDOSTO, list);
-  print("lopeta");
-}
-
 
 void draw() { 
   pelikentta.piirra();
@@ -92,5 +98,17 @@ void mouseMoved() {
 
 void mouseClicked() {
   pelikentta.hiirtaPainettu();
+}
+
+void stop() {
+  musiikki.close();
+  minim.stop();
+  String[] list = new String[10];
+  for (int i = 0; i < highscore.length && i < 10 ; i++) {
+    list[i] = highscore[i].nimi + " " + highscore[i].pisteet;
+  }
+  saveStrings(PISTETIEDOSTO, list);
+  print("lopeta");
+  super.stop();
 }
 

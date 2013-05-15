@@ -5,6 +5,8 @@ public class Vihu {
   private int kestavyys_;
   private int kuva_;
   private int nykyinenKoordinaatti_ = 0;
+  private int tapporaha_;
+  private int tappopisteet_;
 
   public Vihu(int X, int Y, int tyyppi) {
     paikka_.x = X;
@@ -13,16 +15,22 @@ public class Vihu {
       nopeus_ = 1;
       kestavyys_ = 20;
       kuva_ = 1;
+      tapporaha_ = 10;
+      tappopisteet_ = 1;
     }
     else if (tyyppi == 2) {
       nopeus_ = 2;
       kestavyys_ = 10;
       kuva_ = 2;
+      tapporaha_ = 15;
+      tappopisteet_ = 2;
     }
     else if (tyyppi == 3) {
       nopeus_ = 0.5;
       kestavyys_ = 50;
       kuva_ = 3;
+      tapporaha_ = 30;
+      tappopisteet_ = 3;
     }
   }
   
@@ -81,6 +89,13 @@ public class Vihu {
     if (kohdenro != 0) {
       kohde_ = kohde;
     }
+  }
+  public int annaTapporaha() {
+    return tapporaha_;
+  }
+  
+  public int annaTappopisteet() {
+    return tappopisteet_;
   }
 }
 

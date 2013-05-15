@@ -18,19 +18,19 @@ public class Pelaaja {
     rahat_ -= summa;
     return true;
   }
+
+  public void lisaaRahaa (int summa, int pisteet) {
+    rahat_ += summa;
+    pisteet_+=pisteet;
+  }
   public String palautaNimi() {
     return nimi_;
   }
 
-  public void lisaaRahaa (int summa) {
-    rahat_ += summa;
-    ++pisteet_;
-  }
 
   public int palautaPisteet() {
     return pisteet_;
   }
-
   public void nollaa () {
     rahat_ = ALKURAHAT;
     pisteet_ = 0;

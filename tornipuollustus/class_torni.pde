@@ -8,9 +8,12 @@ public class Torni {
   private int kuva_;
   private int viive_;
   private int viimeksiAmmuttu_;
-  
+  private boolean ollaankoAmpumassa_ = false;
+
+
   private boolean kiskotaan_ = false;
 
+  private Koordinaatti ampumakohde_;
   private Koordinaatti paikka_ = new Koordinaatti(0, 0);
 
 
@@ -18,31 +21,31 @@ public class Torni {
     if (tyyppi == 1) {
       paikka_.x = X;
       paikka_.y = Y;
-      hinta_ = 100;
+      hinta_ = 150;
       taso_ = 1;
       kuva_ = 1;
-      tulivoima_ = 5;
-      kantama_ = 40;
-      viive_ = 1000;
+      tulivoima_ = 10;
+      kantama_ = 100;
+      viive_ = 2500;
     }
-     if (tyyppi == 2) {
+    if (tyyppi == 2) {
       paikka_.x = X;
       paikka_.y = Y;
-      hinta_ = 200;
+      hinta_ = 400;
       taso_ = 1;
       kuva_ = 2;
-      tulivoima_ = 10;
-      kantama_ = 50;
-      viive_ = 2000;
+      tulivoima_ = 20;
+      kantama_ = 70;
+      viive_ = 4000;
     }
     if (tyyppi == 3) {
       paikka_.x = X;
       paikka_.y = Y;
-      hinta_ = 150;
+      hinta_ = 300;
       taso_ = 1;
       kuva_ = 3;
       tulivoima_ = 5;
-      kantama_ = 100;
+      kantama_ = 150;
       viive_ = 1500;
     }
   }
@@ -55,7 +58,7 @@ public class Torni {
   public Koordinaatti palautaPaikka() {
     return paikka_;
   }
-  
+
   public int palautaTulivoima() {
     return tulivoima_;
   }
@@ -66,23 +69,31 @@ public class Torni {
   }
 
   public boolean ammu (Koordinaatti kohde) {
+    boolean palaute = false;
     if ((millis() - viimeksiAmmuttu_) > viive_ && !kiskotaan_) {
-      if (sqrt(pow((kohde.x - paikka_.x),2)+pow((kohde.y - paikka_.y),2)) < kantama_) {
-        stroke(0, 0, 128);
-        strokeWeight(15);  
-        line(kohde.x, kohde.y, paikka_.x + torniKuvat[kuva_].width/2 , paikka_.y + torniKuvat[kuva_].height/2);
-        fill(0, 0, 128);      
-        textFont(f, 32);
-        textAlign(CENTER);
-        text("PEW!", paikka_.x + torniKuvat[kuva_].width/2 , paikka_.y + torniKuvat[kuva_].height/2);
-        textAlign(LEFT);
+      if (sqrt(pow((kohde.x - (paikka_.x+torniKuvat[2].width/2)), 2)+pow((kohde.y - (paikka_.y+torniKuvat[2].height/2)), 2)) < kantama_) {
+        ampumakohde_ = kohde;
+        ollaankoAmpumassa_ = true;
         viimeksiAmmuttu_ = millis();
-        return true;
+        palaute = true;
       }
     }
-    return false;
+    if (ollaankoAmpumassa_ && millis()-viimeksiAmmuttu_ < 75) {
+      stroke(50, 50, 255);
+      strokeWeight(15);  
+      line(ampumakohde_.x, ampumakohde_.y, paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
+      fill(0, 0, 64);      
+      textFont(f, 32);
+      textAlign(CENTER);
+      text("PEW!", paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
+      textAlign(LEFT);
+    }
+    else {
+      ollaankoAmpumassa_ = false;
+    }
+    return palaute;
   }
-      
+
 
   public void piirra() {
     image(torniKuvat[kuva_], paikka_.x, paikka_.y);
@@ -90,16 +101,16 @@ public class Torni {
       piirraSade();
     }
   }
-  
+
   public void kiskotaan(boolean arvo) {
     kiskotaan_ = arvo;
   }
   public void piirraSade() {
     ellipseMode(CENTER);
-    fill(0,0,0,0);
+    fill(0, 0, 0, 0);
     stroke(255);
     strokeWeight(2);
-    ellipse(paikka_.x+torniKuvat[2].width/2, paikka_.y+torniKuvat[2].height/2, kantama_, kantama_);
+    ellipse(paikka_.x+torniKuvat[2].width/2, paikka_.y+torniKuvat[2].height/2, kantama_*2, kantama_*2);
   }
   public int myyTorni() {
     return hinta_/2;

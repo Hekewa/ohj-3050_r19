@@ -20,7 +20,7 @@ public class Kentta {
   private int aaltonro = 1;
   private int lahetettavatVihut = 1;
   private int lahetetytVihut = 1;
-  
+
   private int time_ = 0;
   private Boolean dragTorni_ = false;
   private Torni kiskottava_ = null;
@@ -82,9 +82,9 @@ public class Kentta {
       textFont(f, 32);
       textAlign(CENTER);
       text("Hävisit pelin!", width/2, height/2);
-      text("Paina ENTER nähdäksesi highscore taulukon.", width/2+40, height/2+40);
-      textAlign(LEFT);
+      text("Paina ENTER nähdäksesi highscore-taulukon.", width/2+40, height/2+40);
       noLoop();
+      textAlign(LEFT);
       break;
     case 5:
       background(0, 0, 0);
@@ -115,6 +115,12 @@ public class Kentta {
     rect(800, 0, 50, 500);
     for (int i = 1; i < torniKuvat.length; i++) {
       image(torniKuvat[i], 820 - torniKuvat[i].width/2, i*30+10);
+      if (aaltonro < 5 && i == 1) {
+        break;
+      }
+      if (aaltonro < 10 && i == 2) {
+        break;
+      }
     }
     for ( int i = 0; i < viholliset_.size(); i++) {
       Vihu tmp = viholliset_.get(i);
@@ -137,9 +143,11 @@ public class Kentta {
       for (int k = 0; k < viholliset_.size(); ++k) {
         Vihu kohde = viholliset_.get(k);
         if (tmp.ammu(kohde.palautaPaikka())) {
-          if (viholliset_.get(k).vahennaKestavyytta(tmp.palautaTulivoima())) {               
+          if (viholliset_.get(k).vahennaKestavyytta(tmp.palautaTulivoima())) {
+            int rahat = viholliset_.get(k).annaTapporaha();
+            int pisteet = viholliset_.get(k).annaTappopisteet();            
             viholliset_.remove(k);
-            pelaaja_.lisaaRahaa(100);
+            pelaaja_.lisaaRahaa(rahat, pisteet);
           }
         }
       }
@@ -159,7 +167,6 @@ public class Kentta {
   //  ========================================================================
   //
   public void nappainPainettu() {
-<<<<<<< HEAD
     if (pelinTila_ == 3) {
       if (key == 'r' || key == 'R') {
         tukikohta_.nollaaElamat();
@@ -175,10 +182,7 @@ public class Kentta {
         downcount = START_COUNTER;
       }
     }
-    if (pelinTila_ != 0 && pelinTila_ != 4) {
-=======
     if (pelinTila_ != 0 && pelinTila_ != 4 && pelinTila_ != 5) {
->>>>>>> c8160a9b522f00681a7d3eede5690d35e4b98ae7
       return;
     }
 
@@ -209,7 +213,7 @@ public class Kentta {
     }
     if (pelinTila_ == 4 && key == ENTER) {
       pelinTila_ = 5;
-
+      loop();
       int lisaaTahan = 15;
       for (int i = 0; i < highscore.length; i++) {
         if (highscore[i].pisteet < pelaaja_.palautaPisteet()) {
@@ -243,9 +247,6 @@ public class Kentta {
       }
       pelaaja_.nollaa();
       aaltonro = 1;
-<<<<<<< HEAD
-      loop();
-=======
       pelinTila_ = 0;
 
       String[] list = new String[10];
@@ -254,7 +255,6 @@ public class Kentta {
       }
       saveStrings(PISTETIEDOSTO, list);
       print("Tiedosto kirjoitettu");
->>>>>>> c8160a9b522f00681a7d3eede5690d35e4b98ae7
     }
   }
 
@@ -284,7 +284,7 @@ public class Kentta {
   //
   public void hiirtaPainettu() {
     if (kiskottava_ != null && mouseButton == RIGHT) {
-      pelaaja_.lisaaRahaa(kiskottava_.myyTorni());
+      pelaaja_.lisaaRahaa(kiskottava_.myyTorni(), 0);
       for (int i = 0; i < tornit_.size(); ++i) {
         if (tornit_.get(i) == kiskottava_) {
           tornit_.remove(i);
@@ -293,30 +293,33 @@ public class Kentta {
         }
       }
     }
+
     if (mouseX > 800 && kiskottava_ == null) {
-      if ( mouseX <  826 && mouseX > 813
-        && mouseY < 22 && mouseY > 10) {
+      if ( mouseX <  833 && mouseX > 806
+        && mouseY < 67 && mouseY > 40) {
         kiskottava_ = uusiTorni(1);
         if (kiskottava_ != null) {
           kiskottava_.kiskotaan(true);
         }
       }
       if ( mouseX <  833 && mouseX > 806
-        && mouseY < 68 && mouseY > 40) {
+        && mouseY < 97 && mouseY > 70
+        && aaltonro > 5) {
         kiskottava_ = uusiTorni(2);
         if (kiskottava_ != null) {
           kiskottava_.kiskotaan(true);
         }
       }
       if ( mouseX <  833 && mouseX > 806
-        && mouseY < 94 && mouseY > 70) {
+        && mouseY < 128 && mouseY > 100
+        && aaltonro > 10) {
         kiskottava_ = uusiTorni(3);
         if (kiskottava_ != null) {
           kiskottava_.kiskotaan(true);
         }
       }
     }
-    else if ( kiskottava_ == null ) {
+    else if ( kiskottava_ == null) {
       for ( int i = 0; i < tornit_.size(); i++) {
         Torni tmp = tornit_.get(i);
         Koordinaatti paikka = tmp.palautaPaikka();
@@ -370,7 +373,7 @@ public class Kentta {
           }
         }
       }
-      if (!onReitilla) {
+      if (!onReitilla && mouseX < 800) {
         kiskottava_.kiskotaan(false);
         kiskottava_ = null;
       }
@@ -382,13 +385,8 @@ public class Kentta {
   //  ========================================================================
   //
   public void lisaaHirvioita(Koordinaatti kohde) {
-<<<<<<< HEAD
-    Vihu uusvihu = new Vihu(0, height/2, int(random(1, 3)) );
+    Vihu uusvihu = new Vihu(0, height/2, int(random(1, 4)));
     uusvihu.uusiKohde(1, kohde);            
-=======
-    Vihu uusvihu = new Vihu(0, height/2);
-    uusvihu.uusiKohde(1, kohde);
->>>>>>> c8160a9b522f00681a7d3eede5690d35e4b98ae7
     viholliset_.add(uusvihu);
   } 
 
@@ -410,30 +408,21 @@ public class Kentta {
     if (countertime+500 <= millis() ) {
       downcount -= 1;
       countertime = millis();
-<<<<<<< HEAD
       if (pelinTila_ == 3) { 
         if (lahetettavatVihut != 0) {
           lisaaHirvioita(reitti_.get(0));
           --lahetettavatVihut;
-        } 
+        }
       }
       if ((downcount % int(MAX_LASKURI/aaltonro)) == 0 && pelinTila_ == 3) {
         lahetettavatVihut = int(aaltonro/10+1);
-=======
-      if ((downcount % int(MAX_LASKURI/aaltonro*2)) == 0 && pelinTila_ == 3) {
-        lisaaHirvioita(reitti_.get(0));
->>>>>>> c8160a9b522f00681a7d3eede5690d35e4b98ae7
       }
     }
     if (downcount < 0) {
       downcount = MAX_LASKURI;
       int waittime = millis();
       lisaaHirvioita(reitti_.get(0));
-<<<<<<< HEAD
       lahetettavatVihut = int(aaltonro/10+1);
-=======
-      lahetetytVihut = 1;
->>>>>>> c8160a9b522f00681a7d3eede5690d35e4b98ae7
       ++aaltonro;
     }
   }
