@@ -20,8 +20,8 @@ int torniX = 600;
 int torniY = 125;
 
 PImage taustaKuvat[] = new PImage[2];
-PImage vihuKuvat[] = new PImage[2];
-PImage torniKuvat[] = new PImage[2];
+PImage vihuKuvat[] = new PImage[4];
+PImage torniKuvat[] = new PImage[4];
 PFont f;
 
 Kentta pelikentta = new Kentta();

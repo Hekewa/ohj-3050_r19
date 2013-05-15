@@ -8,6 +8,8 @@ public class Torni {
   private int kuva_;
   private int viive_;
   private int viimeksiAmmuttu_;
+  
+  private boolean kiskotaan_ = false;
 
   private Koordinaatti paikka_ = new Koordinaatti(0, 0);
 
@@ -18,7 +20,7 @@ public class Torni {
       paikka_.y = Y;
       hinta_ = 100;
       taso_ = 1;
-      kuva_ = 0;
+      kuva_ = 1;
       tulivoima_ = 5;
       kantama_ = 40;
       viive_ = 1000;
@@ -27,11 +29,21 @@ public class Torni {
       paikka_.x = X;
       paikka_.y = Y;
       hinta_ = 200;
-      taso_ = 2;
-      kuva_ = 1;
+      taso_ = 1;
+      kuva_ = 2;
       tulivoima_ = 10;
       kantama_ = 50;
       viive_ = 2000;
+    }
+    if (tyyppi == 3) {
+      paikka_.x = X;
+      paikka_.y = Y;
+      hinta_ = 150;
+      taso_ = 1;
+      kuva_ = 3;
+      tulivoima_ = 5;
+      kantama_ = 100;
+      viive_ = 1500;
     }
   }
 
@@ -54,11 +66,16 @@ public class Torni {
   }
 
   public boolean ammu (Koordinaatti kohde) {
-    if ((millis() - viimeksiAmmuttu_) > viive_) {
+    if ((millis() - viimeksiAmmuttu_) > viive_ && !kiskotaan_) {
       if (sqrt(pow((kohde.x - paikka_.x),2)+pow((kohde.y - paikka_.y),2)) < kantama_) {
-        stroke(255);
-        strokeWeight(20);  
+        stroke(0, 0, 128);
+        strokeWeight(15);  
         line(kohde.x, kohde.y, paikka_.x + torniKuvat[kuva_].width/2 , paikka_.y + torniKuvat[kuva_].height/2);
+        fill(0, 0, 128);      
+        textFont(f, 32);
+        textAlign(CENTER);
+        text("PEW!", paikka_.x + torniKuvat[kuva_].width/2 , paikka_.y + torniKuvat[kuva_].height/2);
+        textAlign(LEFT);
         viimeksiAmmuttu_ = millis();
         return true;
       }
@@ -69,6 +86,23 @@ public class Torni {
 
   public void piirra() {
     image(torniKuvat[kuva_], paikka_.x, paikka_.y);
+    if (kiskotaan_) {
+      piirraSade();
+    }
+  }
+  
+  public void kiskotaan(boolean arvo) {
+    kiskotaan_ = arvo;
+  }
+  public void piirraSade() {
+    ellipseMode(CENTER);
+    fill(0,0,0,0);
+    stroke(255);
+    strokeWeight(2);
+    ellipse(paikka_.x+torniKuvat[2].width/2, paikka_.y+torniKuvat[2].height/2, kantama_, kantama_);
+  }
+  public int myyTorni() {
+    return hinta_/2;
   }
 }
 

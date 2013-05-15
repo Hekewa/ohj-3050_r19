@@ -18,7 +18,9 @@ public class Kentta {
   private int countertime_ = 0;
   private int downcount_ = 0;
   private int aaltonro = 1;
+  private int lahetettavatVihut = 1;
   private int lahetetytVihut = 1;
+  
   private int time_ = 0;
   private Boolean dragTorni_ = false;
   private Torni kiskottava_ = null;
@@ -82,6 +84,7 @@ public class Kentta {
       text("Hävisit pelin!", width/2, height/2);
       text("Paina ENTER aloittaaksesi uudelleen.", width/2+40, height/2+40);
       textAlign(LEFT);
+      noLoop();
       break;
     }
     return;
@@ -100,13 +103,13 @@ public class Kentta {
     strokeWeight(0);
     fill(40);  
     rect(800, 0, 50, 500);
-    for (int i = 0; i < torniKuvat.length; i++) {
+    for (int i = 1; i < torniKuvat.length; i++) {
       image(torniKuvat[i], 820 - torniKuvat[i].width/2, i*30+10);
     }
     for ( int i = 0; i < viholliset_.size(); i++) {
       Vihu tmp = viholliset_.get(i);
       int temp = viholliset_.get(i).liiku();
-      if (temp == reitti_.size()) {
+      if (temp >= reitti_.size()) {
         if (tukikohta_.menetaElama()) {
           pelinTila_ = 4;
         }
@@ -146,9 +149,25 @@ public class Kentta {
   //  ========================================================================
   //
   public void nappainPainettu() {
+    if (pelinTila_ == 3) {
+      if (key == 'r' || key == 'R') {
+        tukikohta_.nollaaElamat();
+        for ( int i = 0; i < viholliset_.size(); i++) {
+          viholliset_.remove(i);
+        }
+        for ( int i = 0; i < tornit_.size(); i++) {
+          tornit_.remove(i);
+        }
+        pelaaja_.nollaa();
+        pelinTila_ = 2;
+        aaltonro = 1;
+        downcount = START_COUNTER;
+      }
+    }
     if (pelinTila_ != 0 && pelinTila_ != 4) {
       return;
     }
+
     if (pelinTila_ == 0) {
       if (key >= 'a' && key <= 'z' ||
         key >= 'A' && key <= 'Z') {
@@ -185,20 +204,14 @@ public class Kentta {
       pelaaja_.nollaa();
       pelinTila_ = 0;
       aaltonro = 1;
+      loop();
     }
   }
 
   //  ========================================================================
   //
   public Torni uusiTorni(int tornityyppi) {
-    if (tornityyppi == 0) {
-      Torni uusTorni = new Torni(mouseX, mouseY, tornityyppi);
-      if (pelaaja_.vahennaRahaa(uusTorni.hinta_)) {
-        tornit_.add(uusTorni);
-        return uusTorni;
-      }
-    }
-    else {
+    if (tornityyppi > 0 && tornityyppi < 4) {
       Torni uusTorni = new Torni(mouseX, mouseY, tornityyppi);
       if (pelaaja_.vahennaRahaa(uusTorni.hinta_)) {
         tornit_.add(uusTorni);
@@ -220,23 +233,47 @@ public class Kentta {
   //  ========================================================================
   //
   public void hiirtaPainettu() {
+    if (kiskottava_ != null && mouseButton == RIGHT) {
+      pelaaja_.lisaaRahaa(kiskottava_.myyTorni());
+      for (int i = 0; i < tornit_.size(); ++i) {
+        if (tornit_.get(i) == kiskottava_) {
+          tornit_.remove(i);
+          kiskottava_ = null;
+          break;
+        }
+      }
+    }
     if (mouseX > 800 && kiskottava_ == null) {
       if ( mouseX <  826 && mouseX > 813
         && mouseY < 22 && mouseY > 10) {
         kiskottava_ = uusiTorni(1);
+        if (kiskottava_ != null) {
+          kiskottava_.kiskotaan(true);
+        }
       }
       if ( mouseX <  833 && mouseX > 806
         && mouseY < 68 && mouseY > 40) {
         kiskottava_ = uusiTorni(2);
+        if (kiskottava_ != null) {
+          kiskottava_.kiskotaan(true);
+        }
+      }
+      if ( mouseX <  833 && mouseX > 806
+        && mouseY < 94 && mouseY > 70) {
+        kiskottava_ = uusiTorni(3);
+        if (kiskottava_ != null) {
+          kiskottava_.kiskotaan(true);
+        }
       }
     }
     else if ( kiskottava_ == null ) {
       for ( int i = 0; i < tornit_.size(); i++) {
         Torni tmp = tornit_.get(i);
         Koordinaatti paikka = tmp.palautaPaikka();
-        if ( mouseX < paikka.x+15 && mouseX > paikka.x
-          && mouseY < paikka.y+15 && mouseY > paikka.y) {
+        if ( mouseX < paikka.x+torniKuvat[1].width && mouseX > paikka.x
+          && mouseY < paikka.y+torniKuvat[2].height && mouseY > paikka.y) {
           kiskottava_ = tmp;
+          tmp.kiskotaan(true);
         }
       }
     }
@@ -282,64 +319,71 @@ public class Kentta {
             }
           }
         }
-        if (!onReitilla) {
-          kiskottava_ = null;
-        }
+      }
+      if (!onReitilla) {
+        kiskottava_.kiskotaan(false);
+        kiskottava_ = null;
       }
     }
   }
 
 
 
-    //  ========================================================================
-    //
-    public void lisaaHirvioita(Koordinaatti kohde) {
-      Vihu uusvihu = new Vihu(0, height/2);
-      uusvihu.uusiKohde(1, kohde);
-      viholliset_.add(uusvihu);
-    } 
+  //  ========================================================================
+  //
+  public void lisaaHirvioita(Koordinaatti kohde) {
+    Vihu uusvihu = new Vihu(0, height/2, int(random(1, 3)) );
+    uusvihu.uusiKohde(1, kohde);            
+    viholliset_.add(uusvihu);
+  } 
 
 
 
-    //  ========================================================================
-    //
-    private void alustusRuutu() {
-      image (taustaKuvat[0], 0, 0);
-      fill(255, 215, 0);
-      text("Tervetuloa, anna nimesi", 35, 35);
-      text(typedText+(frameCount/20 % 2 == 0 ? "_" : ""), 35, 85);
-    }
+  //  ========================================================================
+  //
+  private void alustusRuutu() {
+    image (taustaKuvat[0], 0, 0);
+    fill(255, 215, 0);
+    text("Tervetuloa, anna nimesi", 35, 35);
+    text(typedText+(frameCount/20 % 2 == 0 ? "_" : ""), 35, 85);
+  }
 
 
-    //  ========================================================================
-    //
-    private void paivitaCounter() {
-      if (countertime+500 <= millis() ) {
-        downcount -= 1;
-        countertime = millis();
-        if ((downcount % int(MAX_LASKURI/aaltonro*2)) == 0 && pelinTila_ == 3) {
+  //  ========================================================================
+  //
+  private void paivitaCounter() {
+    if (countertime+500 <= millis() ) {
+      downcount -= 1;
+      countertime = millis();
+      if (pelinTila_ == 3) { 
+        if (lahetettavatVihut != 0) {
           lisaaHirvioita(reitti_.get(0));
-        }
+          --lahetettavatVihut;
+        } 
       }
-      if (downcount < 0) {
-        downcount = MAX_LASKURI;
-        int waittime = millis();
-        lisaaHirvioita(reitti_.get(0));
-        lahetetytVihut = 1;
-        ++aaltonro;
+      if ((downcount % int(MAX_LASKURI/aaltonro)) == 0 && pelinTila_ == 3) {
+        lahetettavatVihut = int(aaltonro/10+1);
       }
     }
-
-    private void piirraReitti() {
-      stroke(139, 69, 20);
-      strokeWeight(20);
-      Koordinaatti edellinen;
-      Koordinaatti seuraava;
-      for (int i = 0; i < reitti_.size() - 1; ++i) {
-        edellinen = reitti_.get(i);
-        seuraava = reitti_.get(i+1);
-        line (edellinen.x, edellinen.y, seuraava.x, seuraava.y);
-      }
+    if (downcount < 0) {
+      downcount = MAX_LASKURI;
+      int waittime = millis();
+      lisaaHirvioita(reitti_.get(0));
+      lahetettavatVihut = int(aaltonro/10+1);
+      ++aaltonro;
     }
   }
+
+  private void piirraReitti() {
+    stroke(139, 69, 20);
+    strokeWeight(20);
+    Koordinaatti edellinen;
+    Koordinaatti seuraava;
+    for (int i = 0; i < reitti_.size() - 1; ++i) {
+      edellinen = reitti_.get(i);
+      seuraava = reitti_.get(i+1);
+      line (edellinen.x, edellinen.y, seuraava.x, seuraava.y);
+    }
+  }
+}
 
