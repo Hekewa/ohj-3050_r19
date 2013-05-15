@@ -243,63 +243,91 @@ public class Kentta {
     Koordinaatti edellinen;
     Koordinaatti seuraava;
     else if (kiskottava != null) {
-    for (int i = 0; i < reitti_.size()-1; ++i) {
-      edellinen = reitti_.get(i);
-      seuraava = reitti_.get(i+1);
-      if (edellinen.x - 15, edellinen.x +15 
-        kiskottava_ = null;
-    }
-
-
-    //  ========================================================================
-    //
-    public void lisaaHirvioita(Koordinaatti kohde) {
-      Vihu uusvihu = new Vihu(0, height/2);
-      uusvihu.uusiKohde(1, kohde);
-      viholliset_.add(uusvihu);
-    } 
-
-
-
-    //  ========================================================================
-    //
-    private void alustusRuutu() {
-      image (taustaKuvat[0], 0, 0);
-      fill(255, 215, 0);
-      text("Tervetuloa, anna nimesi", 35, 35);
-      text(typedText+(frameCount/20 % 2 == 0 ? "_" : ""), 35, 85);
-    }
-
-
-    //  ========================================================================
-    //
-    private void paivitaCounter() {
-      if (countertime+500 <= millis() ) {
-        downcount -= 1;
-        countertime = millis();
-        if ((downcount % int(MAX_LASKURI/aaltonro*2)) == 0 && pelinTila_ == 3) {
-          lisaaHirvioita(reitti_.get(0));
-        }
-      }
-      if (downcount < 0) {
-        downcount = MAX_LASKURI;
-        int waittime = millis();
-        lisaaHirvioita(reitti_.get(0));
-        lahetetytVihut = 1;
-        ++aaltonro;
-      }
-    }
-
-    private void piirraReitti() {
-      stroke(139, 69, 20);
-      strokeWeight(20);
-      Koordinaatti edellinen;
-      Koordinaatti seuraava;
-      for (int i = 0; i < reitti_.size() - 1; ++i) {
+      for (int i = 0; i < reitti_.size()-1; ++i) {
         edellinen = reitti_.get(i);
         seuraava = reitti_.get(i+1);
-        line (edellinen.x, edellinen.y, seuraava.x, seuraava.y);
+        if (edellinen.x == seuraava.x) {
+          if (edellinen.y < seuraava.y) { 
+            if (abs(mouseX - edellinen.x) < 15 && mouseY > seuraava.y + 15
+              && mouseY < edellinen.y - 15) { 
+              kiskottava_ = null;
+            }
+          }
+          else {
+            if (abs(mouseX - edellinen.x) < 15 && mouseY > edellinen.y + 15
+              && mouseY < seuraava.y - 15) {
+              kiskottava_ = null;
+            }
+          }
+        }
+        else if (edellinen.y == seuraava.y) {
+          if (edellinen.x < seuraava.x) { 
+            if (abs(mouseX - edellinen.y) < 15 && mouseY > seuraava.x + 15
+              && mouseY < edellinen.x - 15) { 
+              kiskottava_ = null;
+            }
+          }
+          else {
+            if (abs(mouseX - edellinen.y) < 15 && mouseY > edellinen.x + 15
+              && mouseY < seuraava.x - 15) {
+              kiskottava_ = null;
+            }
+          }
+        }
       }
     }
   }
+
+
+  //  ========================================================================
+  //
+  public void lisaaHirvioita(Koordinaatti kohde) {
+    Vihu uusvihu = new Vihu(0, height/2);
+    uusvihu.uusiKohde(1, kohde);
+    viholliset_.add(uusvihu);
+  } 
+
+
+
+  //  ========================================================================
+  //
+  private void alustusRuutu() {
+    image (taustaKuvat[0], 0, 0);
+    fill(255, 215, 0);
+    text("Tervetuloa, anna nimesi", 35, 35);
+    text(typedText+(frameCount/20 % 2 == 0 ? "_" : ""), 35, 85);
+  }
+
+
+  //  ========================================================================
+  //
+  private void paivitaCounter() {
+    if (countertime+500 <= millis() ) {
+      downcount -= 1;
+      countertime = millis();
+      if ((downcount % int(MAX_LASKURI/aaltonro*2)) == 0 && pelinTila_ == 3) {
+        lisaaHirvioita(reitti_.get(0));
+      }
+    }
+    if (downcount < 0) {
+      downcount = MAX_LASKURI;
+      int waittime = millis();
+      lisaaHirvioita(reitti_.get(0));
+      lahetetytVihut = 1;
+      ++aaltonro;
+    }
+  }
+
+  private void piirraReitti() {
+    stroke(139, 69, 20);
+    strokeWeight(20);
+    Koordinaatti edellinen;
+    Koordinaatti seuraava;
+    for (int i = 0; i < reitti_.size() - 1; ++i) {
+      edellinen = reitti_.get(i);
+      seuraava = reitti_.get(i+1);
+      line (edellinen.x, edellinen.y, seuraava.x, seuraava.y);
+    }
+  }
+}
 
