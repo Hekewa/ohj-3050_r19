@@ -82,10 +82,20 @@ public class Kentta {
       textFont(f, 32);
       textAlign(CENTER);
       text("Hävisit pelin!", width/2, height/2);
-      text("Paina ENTER aloittaaksesi uudelleen.", width/2+40, height/2+40);
+      text("Paina ENTER nähdäksesi highscore taulukon.", width/2+40, height/2+40);
       textAlign(LEFT);
       noLoop();
       break;
+    case 5:
+      background(0, 0, 0);
+      fill(255, 215, 0);
+      textFont(f, 32);
+      text("HIGHSCORES", 150, 40); 
+      for (int i = 0; i < highscore.length; i++) {
+        text(i+1 + ". " + highscore[i].nimi + "    " + highscore[i].pisteet
+          + "pistettä", 150, i*40+80);
+      }
+      text("Sinun pisteesi: " + pelaaja_.palautaPisteet(), 500, 40);
     }
     return;
   }
@@ -149,6 +159,7 @@ public class Kentta {
   //  ========================================================================
   //
   public void nappainPainettu() {
+<<<<<<< HEAD
     if (pelinTila_ == 3) {
       if (key == 'r' || key == 'R') {
         tukikohta_.nollaaElamat();
@@ -165,6 +176,9 @@ public class Kentta {
       }
     }
     if (pelinTila_ != 0 && pelinTila_ != 4) {
+=======
+    if (pelinTila_ != 0 && pelinTila_ != 4 && pelinTila_ != 5) {
+>>>>>>> c8160a9b522f00681a7d3eede5690d35e4b98ae7
       return;
     }
 
@@ -194,6 +208,32 @@ public class Kentta {
       }
     }
     if (pelinTila_ == 4 && key == ENTER) {
+      pelinTila_ = 5;
+
+      int lisaaTahan = 15;
+      for (int i = 0; i < highscore.length; i++) {
+        if (highscore[i].pisteet < pelaaja_.palautaPisteet()) {
+          lisaaTahan = i;
+          break;
+        }
+      }
+      if (lisaaTahan < 10 ) {
+        Pisteet tmp1 = highscore[lisaaTahan];
+        Pisteet tmp2 = null;
+        highscore[lisaaTahan] = new Pisteet(pelaaja_.palautaNimi(), 
+        pelaaja_.palautaPisteet());
+        for (int i = lisaaTahan+1; i < highscore.length; i++) {
+          tmp2 = highscore[i];
+          highscore[i] = tmp1;
+          tmp1 = tmp2;
+        }
+      }
+
+      return;
+    }
+    if (pelinTila_ == 5 && key == ENTER) {
+      print(pelinTila_);
+
       tukikohta_.nollaaElamat();
       for ( int i = 0; i < viholliset_.size(); i++) {
         viholliset_.remove(i);
@@ -202,9 +242,19 @@ public class Kentta {
         tornit_.remove(i);
       }
       pelaaja_.nollaa();
-      pelinTila_ = 0;
       aaltonro = 1;
+<<<<<<< HEAD
       loop();
+=======
+      pelinTila_ = 0;
+
+      String[] list = new String[10];
+      for (int i = 0; i < highscore.length && i < 10 ; i++) {
+        list[i] = highscore[i].nimi + " " + highscore[i].pisteet;
+      }
+      saveStrings(PISTETIEDOSTO, list);
+      print("Tiedosto kirjoitettu");
+>>>>>>> c8160a9b522f00681a7d3eede5690d35e4b98ae7
     }
   }
 
@@ -332,8 +382,13 @@ public class Kentta {
   //  ========================================================================
   //
   public void lisaaHirvioita(Koordinaatti kohde) {
+<<<<<<< HEAD
     Vihu uusvihu = new Vihu(0, height/2, int(random(1, 3)) );
     uusvihu.uusiKohde(1, kohde);            
+=======
+    Vihu uusvihu = new Vihu(0, height/2);
+    uusvihu.uusiKohde(1, kohde);
+>>>>>>> c8160a9b522f00681a7d3eede5690d35e4b98ae7
     viholliset_.add(uusvihu);
   } 
 
@@ -355,6 +410,7 @@ public class Kentta {
     if (countertime+500 <= millis() ) {
       downcount -= 1;
       countertime = millis();
+<<<<<<< HEAD
       if (pelinTila_ == 3) { 
         if (lahetettavatVihut != 0) {
           lisaaHirvioita(reitti_.get(0));
@@ -363,13 +419,21 @@ public class Kentta {
       }
       if ((downcount % int(MAX_LASKURI/aaltonro)) == 0 && pelinTila_ == 3) {
         lahetettavatVihut = int(aaltonro/10+1);
+=======
+      if ((downcount % int(MAX_LASKURI/aaltonro*2)) == 0 && pelinTila_ == 3) {
+        lisaaHirvioita(reitti_.get(0));
+>>>>>>> c8160a9b522f00681a7d3eede5690d35e4b98ae7
       }
     }
     if (downcount < 0) {
       downcount = MAX_LASKURI;
       int waittime = millis();
       lisaaHirvioita(reitti_.get(0));
+<<<<<<< HEAD
       lahetettavatVihut = int(aaltonro/10+1);
+=======
+      lahetetytVihut = 1;
+>>>>>>> c8160a9b522f00681a7d3eede5690d35e4b98ae7
       ++aaltonro;
     }
   }
