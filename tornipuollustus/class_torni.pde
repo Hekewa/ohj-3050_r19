@@ -8,6 +8,7 @@ public class Torni {
   private int kuva_;
   private int viive_;
   private int viimeksiAmmuttu_;
+  private int tyyppi_;
   private boolean ollaankoAmpumassa_ = false;
 
 
@@ -25,8 +26,9 @@ public class Torni {
       taso_ = 1;
       kuva_ = 1;
       tulivoima_ = 10;
-      kantama_ = 100;
+      kantama_ = 75;
       viive_ = 2500;
+      tyyppi_ = 1;
     }
     if (tyyppi == 2) {
       paikka_.x = X;
@@ -34,19 +36,21 @@ public class Torni {
       hinta_ = 400;
       taso_ = 1;
       kuva_ = 2;
-      tulivoima_ = 20;
-      kantama_ = 70;
+      tulivoima_ = 35;
+      kantama_ = 50;
       viive_ = 4000;
+      tyyppi_ = 2;
     }
     if (tyyppi == 3) {
       paikka_.x = X;
       paikka_.y = Y;
-      hinta_ = 300;
+      hinta_ = 250;
       taso_ = 1;
       kuva_ = 3;
-      tulivoima_ = 5;
+      tulivoima_ = 1;
       kantama_ = 150;
-      viive_ = 1500;
+      viive_ = 300;
+      tyyppi_ = 3;
     }
   }
 
@@ -79,13 +83,40 @@ public class Torni {
       }
     }
     if (ollaankoAmpumassa_ && millis()-viimeksiAmmuttu_ < 75) {
-      stroke(50, 50, 255);
-      strokeWeight(15);  
-      line(ampumakohde_.x, ampumakohde_.y, paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
-      fill(0, 0, 64);      
-      textFont(f, 32);
       textAlign(CENTER);
-      text("PEW!", paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
+      if (tyyppi_ == 1) {
+        stroke(50, 50, 255);
+        strokeWeight(15);  
+        line(ampumakohde_.x, ampumakohde_.y, paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
+        stroke(200, 200, 255);
+        strokeWeight(5);  
+        line(ampumakohde_.x, ampumakohde_.y, paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
+        fill(0, 0, 64);      
+        textFont(f, 32);
+        text("PEW!", paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
+      }
+      if (tyyppi_ == 2) {
+        stroke(255, 00, 0);
+        strokeWeight(45);  
+        line(ampumakohde_.x, ampumakohde_.y, paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
+        stroke(255, 200, 200);
+        strokeWeight(10);  
+        line(ampumakohde_.x, ampumakohde_.y, paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
+        fill(64, 0, 0);      
+        textFont(f, 32);
+        text("PEW!", paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
+      }
+      if (tyyppi_ == 3) {
+        stroke(0, 255, 0);
+        strokeWeight(10);  
+        line(ampumakohde_.x, ampumakohde_.y, paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
+        stroke(200, 255, 200);
+        strokeWeight(3);  
+        line(ampumakohde_.x, ampumakohde_.y, paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
+        fill(0, 64, 0);      
+        textFont(f, 32);
+        text("PEW!", paikka_.x + torniKuvat[kuva_].width/2, paikka_.y + torniKuvat[kuva_].height/2);
+      }
       textAlign(LEFT);
     }
     else {

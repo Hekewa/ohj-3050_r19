@@ -13,7 +13,7 @@ public class Tukikohta {
     fill(0, 0, 255);
     textFont(f, 24);
     textAlign(CENTER);
-    text("Elämät: " + elamat_, 15*width/18, 17*height/18);
+    text("Elämät: " + elamat_, 15*width/18, 15*height/18);
     textAlign(LEFT);
     image(torniKuvat[1], 780, 235);
   }

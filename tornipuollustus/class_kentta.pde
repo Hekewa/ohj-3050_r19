@@ -129,6 +129,7 @@ public class Kentta {
         if (tukikohta_.menetaElama()) {
           pelinTila_ = 4;
         }
+        viholliset_.get(i).kuole();
         viholliset_.remove(i);
         break;
       }
@@ -145,7 +146,8 @@ public class Kentta {
         if (tmp.ammu(kohde.palautaPaikka())) {
           if (viholliset_.get(k).vahennaKestavyytta(tmp.palautaTulivoima())) {
             int rahat = viholliset_.get(k).annaTapporaha();
-            int pisteet = viholliset_.get(k).annaTappopisteet();            
+            int pisteet = viholliset_.get(k).annaTappopisteet();
+            viholliset_.get(k).kuole();            
             viholliset_.remove(k);
             pelaaja_.lisaaRahaa(rahat, pisteet);
           }
@@ -232,22 +234,14 @@ public class Kentta {
           tmp1 = tmp2;
         }
       }
-
       return;
     }
     if (pelinTila_ == 5 && key == ENTER) {
       print(pelinTila_);
-
-      tukikohta_.nollaaElamat();
-      for ( int i = 0; i < viholliset_.size(); i++) {
-        viholliset_.remove(i);
-      }
-      for ( int i = 0; i < tornit_.size(); i++) {
-        tornit_.remove(i);
-      }
       pelaaja_.nollaa();
       aaltonro = 1;
       pelinTila_ = 0;
+      tukikohta_.nollaaElamat();
 
       String[] list = new String[10];
       for (int i = 0; i < highscore.length && i < 10 ; i++) {
@@ -255,6 +249,12 @@ public class Kentta {
       }
       saveStrings(PISTETIEDOSTO, list);
       print("Tiedosto kirjoitettu");
+    }
+    for ( int i = 0; i < viholliset_.size(); i++) {
+      viholliset_.remove(i);
+    }
+    for ( int i = 0; i < tornit_.size(); i++) {
+      tornit_.remove(i);
     }
   }
 

@@ -10,7 +10,7 @@ final String FONT = "Arial";
 final int FONTSIZE = 32;
 final int MAX_LASKURI = 60;
 final int START_COUNTER = 15;
-final int MAX_ELAMAT = 5;
+final int MAX_ELAMAT = 1;
 final int ALKURAHAT = 300;
 
 final String PISTETIEDOSTO = "highscore.txt";
@@ -51,12 +51,10 @@ Kentta pelikentta = new Kentta();
 
 void setup() {
   size(850, 500);
-  
+
   minim = new Minim(this);
-  
+
   musiikki = minim.loadFile("musiikki.mp3");
-  musiikki.play();
-  musiikki.loop();
 
   smooth();
   f = createFont(FONT, FONTSIZE, true);
@@ -82,6 +80,8 @@ void setup() {
     highscore[i].nimi = tmp[0];
     highscore[i].pisteet = int(tmp[1]);
   }
+  musiikki.play();
+  musiikki.loop();
 }
 
 void draw() { 

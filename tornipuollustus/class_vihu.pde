@@ -22,14 +22,14 @@ public class Vihu {
       nopeus_ = 2;
       kestavyys_ = 10;
       kuva_ = 2;
-      tapporaha_ = 15;
+      tapporaha_ = 5;
       tappopisteet_ = 2;
     }
     else if (tyyppi == 3) {
       nopeus_ = 0.5;
       kestavyys_ = 50;
       kuva_ = 3;
-      tapporaha_ = 30;
+      tapporaha_ = 20;
       tappopisteet_ = 3;
     }
   }
@@ -97,5 +97,12 @@ public class Vihu {
   public int annaTappopisteet() {
     return tappopisteet_;
   }
+  public void kuole() {
+    fill(255,255,0);
+    stroke(255,0,0);
+    strokeWeight(20);
+    ellipseMode(CENTER);
+    ellipse(paikka_.x, paikka_.y, 35, 35);
+  } 
 }
 
