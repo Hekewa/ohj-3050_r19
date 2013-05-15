@@ -1,10 +1,10 @@
-
-
 String typedText = "";
 final String FONT = "Arial";
 final int FONTSIZE = 32;
 final int MAX_LASKURI = 60;
 final int START_COUNTER = 15;
+final int MAX_ELAMAT = 5;
+final int ALKURAHAT = 300;
 
 //Tila 0-n kertoo draw funktiolle mikä on ohjelman tila
 //jotta osataan piirtää ruutu oikein.

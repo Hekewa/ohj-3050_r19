@@ -2,7 +2,7 @@
 
 public class Pelaaja {
   public String nimi_ = "";
-  private int rahat_ = 500;
+  private int rahat_ = ALKURAHAT;
   private int pisteet_;
   private int elama_;
 
@@ -21,12 +21,17 @@ public class Pelaaja {
   
   public void lisaaRahaa (int summa) {
     rahat_ += summa;
+    ++pisteet_; 
   }
 
-
-
+  public void nollaa () {
+    rahat_ = ALKURAHAT;
+    pisteet_ = 0;
+  }
   public void tulostaTiedot() {
-    text("$" + rahat_, 801, 485);
+    textAlign(RIGHT);
+    text("$" + rahat_ + " Pisteet: " + pisteet_, 791, 485);
+    textAlign(LEFT);
   }
 }
 

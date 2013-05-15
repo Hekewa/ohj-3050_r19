@@ -27,4 +27,8 @@ public class Tukikohta {
       return false;
     }
   }
+ 
+  public void nollaaElamat() {
+    elamat_ = MAX_ELAMAT;
+  }
 }
