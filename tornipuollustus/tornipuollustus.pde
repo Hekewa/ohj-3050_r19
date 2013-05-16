@@ -29,8 +29,8 @@ int torniX = 600;
 int torniY = 125;
 
 PImage taustaKuvat[] = new PImage[2];
-PImage vihuKuvat[] = new PImage[4];
-PImage torniKuvat[] = new PImage[4];
+PImage vihuKuvat[] = new PImage[6];
+PImage torniKuvat[] = new PImage[5];
 PFont f;
 
 //Luokka, johon pelaajan pisteet talletetaan

@@ -154,6 +154,16 @@ public class Kentta {
         break;
       }
     }
+    
+    //Piirretään jäljellä olevien elämien määr
+    tukikohta_.piirraElamat();
+
+    //Sekä pelaajatiedot
+    fill(255, 215, 0);
+    textFont(f, 20);
+    pelaaja_.tulostaTiedot();
+    
+    
     //Piirretään kentällä olevat viholliset
     for ( int i = 0; i < viholliset_.size(); i++) {
       //Vihollisille annetaan reittitiedot
@@ -223,14 +233,6 @@ public class Kentta {
         text("Ostohinta: 250 Taso: 1 Tulivoima: 1 Kantomatka: 150", 10, 475);
       }
     }
-
-    //Piirretään jäljellä olevien elämien määr
-    tukikohta_.piirraElamat();
-
-    //Sekä pelaajatiedot
-    fill(255, 215, 0);
-    textFont(f, 20);
-    pelaaja_.tulostaTiedot();
 
     //Mikäli jotain tornia ollaan siirtämässä, tulostetaan
     //sen tiedot
@@ -487,7 +489,7 @@ public class Kentta {
 
   //Hirviön lisääminen, hirviötyyppi arvotaan
   public void lisaaHirvioita(Koordinaatti kohde) {
-    Vihu uusvihu = new Vihu(0, height/2, int(random(1, 4)));
+    Vihu uusvihu = new Vihu(0, height/2, int(random(1, 6)));
     uusvihu.uusiKohde(1, kohde);            
     viholliset_.add(uusvihu);
   } 

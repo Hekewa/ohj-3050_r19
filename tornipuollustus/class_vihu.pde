@@ -36,6 +36,20 @@ public class Vihu {
       tapporaha_ = 20;
       tappopisteet_ = 3;
     }
+    else if (tyyppi == 4) {
+      nopeus_ = 0.25;
+      kestavyys_ = 80;
+      kuva_ = 4;
+      tapporaha_ = 20;
+      tappopisteet_ = 3;
+    }    
+    else if (tyyppi == 5) {
+      nopeus_ = 4;
+      kestavyys_ = 1;
+      kuva_ = 5;
+      tapporaha_ = 20;
+      tappopisteet_ = 3;
+    }
   }
 
   //Getter
