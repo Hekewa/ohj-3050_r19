@@ -19,7 +19,7 @@ public class Tukikohta {
     textAlign(CENTER);
     text("Elämät: " + elamat_, 15*width/18, 15*height/16);
     textAlign(LEFT);
-    image(torniKuvat[4], 760, 205);
+    image(tukikohtakuva[0], 760, 205);
   }
 
   //Vähennetään elämä, mikäli elämät loppuu palautetaan true

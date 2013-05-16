@@ -30,7 +30,8 @@ int torniY = 125;
 
 PImage taustaKuvat[] = new PImage[2];
 PImage vihuKuvat[] = new PImage[6];
-PImage torniKuvat[] = new PImage[5];
+PImage torniKuvat[] = new PImage[4];
+PImage tukikohtakuva[] = new PImage[1];
 PFont f;
 
 //Luokka, johon pelaajan pisteet talletetaan
@@ -69,6 +70,7 @@ void setup() {
   for (int i = 0; i < torniKuvat.length; i++) {
     torniKuvat[i] = loadImage("torni" + nf(i+1, 2) + ".png");
   }
+  tukikohtakuva[0] = loadImage("tukikohta.png");
 
   textFont(f, 32);
   for (int i = 0; i < 10 ; i++) {  
