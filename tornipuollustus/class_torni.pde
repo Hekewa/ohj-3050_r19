@@ -1,6 +1,8 @@
 //Torni luokan toteutus
 
 public class Torni {
+
+  //Jäsenmuuttujat
   public int hinta_ = 100;
   private int taso_ = 1;
   private int tulivoima_ = 0;
@@ -17,8 +19,9 @@ public class Torni {
   private Koordinaatti ampumakohde_;
   private Koordinaatti paikka_ = new Koordinaatti(0, 0);
 
-
+  //Rakentaja, tarvitaan tieto sijainnista ja tornin tyypistä 1..3
   public Torni(int X, int Y, int tyyppi) {
+    //Jäsenmuuttuja alustetaan annetun tyypin mukaan
     if (tyyppi == 1) {
       paikka_.x = X;
       paikka_.y = Y;
@@ -33,7 +36,7 @@ public class Torni {
     if (tyyppi == 2) {
       paikka_.x = X;
       paikka_.y = Y;
-      hinta_ = 400;
+      hinta_ = 300;
       taso_ = 1;
       kuva_ = 2;
       tulivoima_ = 35;
@@ -54,26 +57,32 @@ public class Torni {
     }
   }
 
+  //Tornin paikan vaihtaminen
   public void uusiPaikka(int X, int Y) {
     paikka_.x = X;
     paikka_.y = Y;
   }
 
+  //Getter
   public Koordinaatti palautaPaikka() {
     return paikka_;
   }
 
+  //Getter
   public int palautaTulivoima() {
     return tulivoima_;
   }
 
+  //Tornin tietojen tulostus
   public void tulostaTiedot() {
     fill (255);
     text("Myyntihinta: "+ hinta_/2 + "  Taso: " + taso_ + " Tulivoima: " + tulivoima_ + " Kantomatka: " + kantama_, 10, 475);
   }
 
+  //Tarkistetaan voiko torni ampua jotain kohdetta
   public boolean ammu (Koordinaatti kohde) {
     boolean palaute = false;
+    //Tarkistetaan, että torni on ollut riittävän kauan ampumatta
     if ((millis() - viimeksiAmmuttu_) > viive_ && !kiskotaan_) {
       if (sqrt(pow((kohde.x - (paikka_.x+torniKuvat[2].width/2)), 2)+pow((kohde.y - (paikka_.y+torniKuvat[2].height/2)), 2)) < kantama_) {
         ampumakohde_ = kohde;
@@ -82,6 +91,8 @@ public class Torni {
         palaute = true;
       }
     }
+    //Ampumisesta tuleva efekti riippuu tornityypistä
+    //Efektiä varten on toteutettu lyhyt viive
     if (ollaankoAmpumassa_ && millis()-viimeksiAmmuttu_ < 75) {
       textAlign(CENTER);
       if (tyyppi_ == 1) {
@@ -125,7 +136,7 @@ public class Torni {
     return palaute;
   }
 
-
+  //Tornin piirtäminen
   public void piirra() {
     image(torniKuvat[kuva_], paikka_.x, paikka_.y);
     if (kiskotaan_) {
@@ -133,9 +144,12 @@ public class Torni {
     }
   }
 
+  //Setter
   public void kiskotaan(boolean arvo) {
     kiskotaan_ = arvo;
   }
+
+  //Säteen piirto kuvaa tornin kantamaa
   public void piirraSade() {
     ellipseMode(CENTER);
     fill(0, 0, 0, 0);
@@ -143,6 +157,7 @@ public class Torni {
     strokeWeight(2);
     ellipse(paikka_.x+torniKuvat[2].width/2, paikka_.y+torniKuvat[2].height/2, kantama_*2, kantama_*2);
   }
+  //Tornin myymishinnan palautus
   public int myyTorni() {
     return hinta_/2;
   }

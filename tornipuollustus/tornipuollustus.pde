@@ -11,7 +11,7 @@ final int FONTSIZE = 32;
 final int MAX_LASKURI = 60;
 final int START_COUNTER = 15;
 final int MAX_ELAMAT = 5;
-final int ALKURAHAT = 300;
+final int ALKURAHAT = 250;
 
 final String PISTETIEDOSTO = "highscore.txt";
 
@@ -33,7 +33,7 @@ PImage vihuKuvat[] = new PImage[4];
 PImage torniKuvat[] = new PImage[4];
 PFont f;
 
-
+//Luokka, johon pelaajan pisteet talletetaan
 public class Pisteet {
   public String nimi = "AAA";
   public int pisteet =  0;
@@ -48,14 +48,15 @@ Pisteet highscore[] = new Pisteet[10];
 
 Kentta pelikentta = new Kentta();
 
-
+//Pelin alustaminen
 void setup() {
   size(850, 500);
 
+  //Musiikin alustaminen tiedostosta, musiikkilaitteen alustus
   minim = new Minim(this);
-
   musiikki = minim.loadFile("musiikki.mp3");
 
+  //Kuvien lataaminen tiedostoista
   smooth();
   f = createFont(FONT, FONTSIZE, true);
   pelikentta.alusta();
@@ -73,36 +74,44 @@ void setup() {
   for (int i = 0; i < 10 ; i++) {  
     highscore[i] = new Pisteet("AAA", 0);
   }
-
+  //Ennätysten luku tiedostosta
   String lines[] = loadStrings(PISTETIEDOSTO);
   for (int i = 0; i < lines.length && i < 10 ; i++) {
     String[] tmp = split(lines[i], " ");
     highscore[i].nimi = tmp[0];
     highscore[i].pisteet = int(tmp[1]);
   }
+  //Musiikin käynnistys
   musiikki.play();
   musiikki.loop();
 }
 
+//Piirto-looppi, toteutettu Kentta-classissa
 void draw() { 
   pelikentta.piirra();
 }
 
+//Näppäimen painallus, toteutettu Kentta-classissa
 void keyPressed() {
   pelikentta.nappainPainettu();
 }
 
+//Hiiren liikutus, toteutettu Kentta-classissa
 void mouseMoved() {
   pelikentta.hiirtaLiikutettu();
 }
 
+//Hiiren painallus, toteutettu Kentta-classissa
 void mouseClicked() {
   pelikentta.hiirtaPainettu();
 }
 
+//Toimenpiteet, kun ohjelma suljetaan
 void stop() {
+  //lopetaan musiikki
   musiikki.close();
   minim.stop();
+  //Kirjoitetaan ennätykset tiedostoon
   String[] list = new String[10];
   for (int i = 0; i < highscore.length && i < 10 ; i++) {
     list[i] = highscore[i].nimi + " " + highscore[i].pisteet;
